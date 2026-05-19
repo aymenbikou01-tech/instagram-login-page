@@ -1,0 +1,169 @@
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+/* BODY */
+body{
+    background:#000000;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:12px;
+}
+
+/* CONTAINER */
+.artboard{
+    width:100%;
+    max-width:600px;
+    background:#000;
+    border-radius:18px;
+    padding:24px;
+}
+
+/* LOGO */
+.logo{
+    text-align:center;
+    margin-bottom:44px;
+
+}
+
+.logo img{
+    width:170px;
+    max-width:40%;
+}
+
+/* INPUT BOX */
+.input-box{
+    margin-bottom:15px;
+}
+
+/* INPUT */
+.input-box input{
+    width:112%;
+    height:64px;
+    background:#121212;
+    border:1px solid #2f2f2f;
+    border-radius:18px;
+    padding:0 16px;
+    color:white;
+    font-size:16px;
+    outline:none;
+    transition:0.2s;
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+/* FOCUS */
+.input-box input:focus{
+    border-color:#0095f6;
+    box-shadow:0 0 0 3px rgba(0,149,246,0.15);
+}
+
+/* LOGIN BUTTON */
+.login-btn{
+    width:112%;
+    height:48px;
+    border:none;
+    background:#154fee;
+    border-radius:35px;
+    color:rgb(249, 250, 252);
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.2s;
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+/* HOVER */
+.login-btn:hover{
+    background:#181bce;
+}
+
+/* ACTIVE */
+.login-btn:active{
+    transform:translateX(-50%) scale(0.98);
+}
+
+/* FORGOT */
+.forgot{
+    text-align:center;
+    margin-top:18px;
+    font-size:12px;
+    color:#cfcfcf;
+    cursor:pointer;
+}
+
+/* FACEBOOK */
+.facebook-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    border:1px solid #0095f6;
+    border-radius:35px;
+
+    padding:14px;
+    font-size:14px;
+    font-weight:600;
+
+    color:#0095f6;
+    cursor:pointer;
+    margin-top:18px;
+}
+
+.facebook-btn:hover{
+    background:#151515;
+}
+
+.facebook-btn img{
+    width:18px;
+    height:18px;
+}
+
+/* SIGNUP */
+.signup-btn{
+    margin-top:15px;
+    padding:14px;
+
+    border:1px solid #0095f6;
+    border-radius:35px;
+
+    text-align:center;
+    font-size:14px;
+    color:#0095f6;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.signup-btn:hover{
+    background:#151515;
+}
+
+/* META */
+.meta{
+    text-align:center;
+    margin-top:9px;
+    font-size:12px;
+    color:#8e8e8e;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.meta img{
+    width:44px;
+    margin-bottom:8px;
+    opacity:0.8;
+}
